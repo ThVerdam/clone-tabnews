@@ -6,13 +6,33 @@ async function fetchAPI(key) {
   return responseBody;
 }
 
+const styles = {
+  container: {
+    padding: "1rem",
+    display: "flex",
+    flexDirection: "column",
+    gap: "2rem",
+  },
+  title: {
+    fontWeight: 700,
+    fontSize: "2rem",
+  },
+  card: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.5rem",
+  },
+};
+
 export default function StatusPage() {
   return (
-    <>
-      <h1>Status</h1>
-      <UpdatedAt />
-      <DatabaseStatus />
-    </>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Status</h2>
+        <UpdatedAt />
+        <DatabaseStatus />
+      </div>
+    </div>
   );
 }
 
@@ -27,7 +47,7 @@ function UpdatedAt() {
     updatedAtText = new Date(data.updated_at).toLocaleString("pt-BR");
   }
 
-  return <div>Última atualização: {updatedAtText}</div>;
+  return <p>Última atualização: {updatedAtText}</p>;
 }
 
 function DatabaseStatus() {
@@ -40,21 +60,19 @@ function DatabaseStatus() {
   if (!isLoading && data) {
     databaseStatusInformation = (
       <>
-        <div>Versão: {data.dependencies.database.version}</div>
-        <div>
-          Conexões abertas: {data.dependencies.database.opened_connections}
-        </div>
-        <div>
-          Conexões Máximas: {data.dependencies.database.max_connections}
-        </div>
+        <p>Versão: {data.dependencies.database.version}</p>
+        <p>Conexões abertas: {data.dependencies.database.opened_connections}</p>
+        <p>Conexões Máximas: {data.dependencies.database.max_connections}</p>
       </>
     );
   }
 
   return (
     <>
-      <h2>Database</h2>
-      <div>{databaseStatusInformation}</div>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Database</h2>
+        <div>{databaseStatusInformation}</div>
+      </div>
     </>
   );
 }
